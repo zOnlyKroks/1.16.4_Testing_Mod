@@ -14,6 +14,7 @@ public class SalmonPlayerModel <T extends Entity> extends SegmentedModel<T> {
     private final ModelRenderer finRight;
     private final ModelRenderer finLeft;
 
+
     public SalmonPlayerModel() {
         this.textureWidth = 32;
         this.textureHeight = 32;
@@ -65,5 +66,11 @@ public class SalmonPlayerModel <T extends Entity> extends SegmentedModel<T> {
         }
 
         this.bodyRear.rotateAngleY = -f * 0.25F * MathHelper.sin(f1 * 0.6F * ageInTicks);
+    }
+
+    private void setRotation(ModelRenderer model, float x, float y, float z) {
+        model.rotateAngleX = x;
+        model.rotateAngleY = y;
+        model.rotateAngleZ = z;
     }
 }

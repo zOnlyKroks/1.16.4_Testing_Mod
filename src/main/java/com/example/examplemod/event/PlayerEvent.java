@@ -4,6 +4,8 @@ import com.example.examplemod.ExampleMod;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.Pose;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.TickEvent;
@@ -26,8 +28,10 @@ public class PlayerEvent {
 
     @SubscribeEvent
     public static void onPlayerChangeSeize(EntityEvent.Size event) {
-        event.setNewSize(EntitySize.flexible(128,128));
-        event.setNewEyeHeight(1.0F);
+        if(event.getEntity() instanceof PlayerEntity) {
+            event.setNewSize(EntitySize.flexible(1.0F, 0.5F));
+            event.setNewEyeHeight(0.4F);
+        }
     }
 
     @SubscribeEvent
@@ -35,6 +39,16 @@ public class PlayerEvent {
         EntitySize size = event.player.getSize(Pose.STANDING);
         if(event.player.getSize(Pose.STANDING).equals(size)) {
             event.player.recalculateSize();
+        }
+    }
+
+    @SubscribeEvent
+    public static void waterCheck(TickEvent.PlayerTickEvent event) {
+        PlayerEntity player = event.player;
+        if(player.isInWater()) {
+            event.player.setAir(300);
+        }else if(!player.isInWater()) {
+            player.attackEntityFrom(DamageSource.DROWN, 0.5F);
         }
     }
 }

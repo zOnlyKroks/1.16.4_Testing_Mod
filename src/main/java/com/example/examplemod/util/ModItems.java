@@ -24,4 +24,5 @@ public class ModItems {
 
     public static RegistryObject<ArmorItem> IRON_BOOTS_2 = ITEMS.register("iron_boots_2", () -> new IronBoots((IArmorMaterial) ArmorMaterial.IRON, EquipmentSlotType.FEET, (new Item.Properties()).group(ExampleMod.TAB)));
     public static RegistryObject<ArmorItem> HOVER_BOOTS = ITEMS.register("hover_boots", () -> new HoverBoots((IArmorMaterial) ArmorMaterial.IRON, EquipmentSlotType.FEET, (new Item.Properties()).group(ExampleMod.TAB)));
+
 }

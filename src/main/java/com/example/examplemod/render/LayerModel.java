@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.model.Model;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Quaternion;
 
 public class LayerModel extends LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> {
 
@@ -28,7 +29,14 @@ public class LayerModel extends LayerRenderer<AbstractClientPlayerEntity, Player
 
     @Override
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, AbstractClientPlayerEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        matrixStackIn.push();
         IVertexBuilder vertexBuilder = bufferIn.getBuffer(RenderType.getEntityTranslucentCull(SALMON_LOCATION));
-        new SalmonPlayerModel<>().render(matrixStackIn,vertexBuilder ,packedLightIn, packedLightIn + 1, 1.0F, 1.0F, 1.0F, 1.0F);
+        SalmonModel model = new SalmonModel<>();
+        model.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        if(entitylivingbaseIn.isInWater() && entitylivingbaseIn.isSprinting()) {
+            matrixStackIn.rotate(new Quaternion(270, 0, 0, true));
+        }
+        model.render(matrixStackIn,vertexBuilder ,packedLightIn, packedLightIn + 1, 1.0F, 1.0F, 1.0F, 1.0F);
+        matrixStackIn.pop();
     }
 }
